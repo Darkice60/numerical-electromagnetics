@@ -40,13 +40,13 @@ match choice:
         while True:
             # accumulate onto counter
             c += 1
-            # make old_v equal to a copy of v before the FDA is applied so that an error bound can be checked
+            # make old_v equal to a copy of v before the FDA is applied so that an stopping criteria can be checked
             old_v = v.copy()
             # use the FDA across the entire line. NOTE: EXCLUDING the boundary values
             for i in range(1, len(v) - 1):
                 # apply the FDA at index i
                 v[i] =(v[i-1] + v[i+1]) /2
-            # find the difference between v vs. old_v for error bound
+            # find the difference between v vs. old_v for stopping criteria
             diff = v - old_v
             # the highest value in diff is returned
             max_diff = np.max(np.abs(diff))
@@ -79,7 +79,7 @@ match choice:
         while True:
             # accumulate onto counter
             c += 1
-            # make old_v equal to a copy of v before the FDA is applied so that an error bound can be checked
+            # make old_v equal to a copy of v before the FDA is applied so that an stopping criteria can be checked
             old_v = v.copy()
             # use the FDA across the entire square. NOTE: EXCLUDING the boundary values
             for i in range(1, v.shape[0] - 1):
@@ -87,7 +87,7 @@ match choice:
                     # apply the FDA at index i, j
                     v[i,j] = (v[i-1, j] + v[i+1, j] \
                             + v[i, j-1] + v[i, j+1]) / 4
-            # find the difference between v vs. old_v for error bound
+            # find the difference between v vs. old_v for stopping criteria
             diff = v - old_v
             # the highest value in diff is returned
             max_diff = np.max(np.abs(diff))
@@ -147,7 +147,7 @@ match choice:
         while True:
             # accumulate onto counter
             c += 1
-            # make old_v equal to a copy of v before the FDA is applied so that an error bound can be checked
+            # make old_v equal to a copy of v before the FDA is applied so that an stopping criteria can be checked
             old_v = v.copy()
             # use the FDA across the entire square. NOTE: EXCLUDING the boundary values
             for i in range(1, v.shape[0] - 1):
@@ -155,7 +155,7 @@ match choice:
                     # apply the FDA at index i, j
                     v[i,j] = (v[i-1, j] + v[i+1, j] \
                             + v[i, j-1] + v[i, j+1] + ((rho(i*h, j*h)/EPSILON_0) * h**2)) / 4
-            # find the difference between v vs. old_v for error bound
+            # find the difference between v vs. old_v for stopping criteria
             diff = v - old_v
             # the highest value in diff is returned
             max_diff = np.max(np.abs(diff))
@@ -225,7 +225,7 @@ match choice:
         while True:
             # accumulate onto counter
             c += 1
-            # make old_v equal to a copy of v before the FDA is applied so that an error bound can be checked
+            # make old_v equal to a copy of v before the FDA is applied so that an stopping criteria can be checked
             old_v = v.copy()
             # use the FDA across the entire cube. NOTE: EXCLUDING the boundary values
             for i in range(1, v.shape[0] - 1):
@@ -235,7 +235,7 @@ match choice:
                         v[i, j, k] = (v[i-1, j, k] + v[i+1, j, k] \
                                 + v[i, j-1, k] + v[i, j+1, k] \
                                 + v[i, j, k-1] + v[i, j, k+1] + ((rho(i*h, j*h, k*h)/EPSILON_0) * h**2)) / 6
-            # find the difference between v vs. old_v for error bound
+            # find the difference between v vs. old_v for stopping criteria
             diff = v - old_v
             # the highest value in diff is returned
             max_diff = np.max(np.abs(diff))
