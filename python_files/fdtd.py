@@ -40,6 +40,14 @@ def init_comp(arr, func, x_half, y_half, z_half, dim):
                 arr[i, j, k] = func((i + x_half) * delta_x, (j + y_half) * delta_y, (k + z_half) * delta_z)[dim]
     return arr
 
+def update(field, old_field, delta_t, update_1, update_2, delta_1, delta_2, change_x_1, change_x_2, change_y_1, change_y_2, change_z_1, change_z_2):
+    for i in range(old_field.shape[0]):
+        for j in range(old_field.shape[1]):
+            for k in range(old_field.shape[2]):
+                field[i, j, k] = old_field[i, j, k] + (delta_t/MU_0) * \
+                ((update_1[i + change_x_1, j + change_y_1, k + change_z_1] - update_1[i, j, k])/delta_1 - \
+                 (update_2[i + change_x_2, j + change_y_2, k + change_z_2] - update_2[i, j, k])/delta_2)
+
 
 # get the function E^n and H^(n-1/2) from the user and make them into a function
 print("THE EQUATIONS MUST SATISFY GAUSS' LAW OF ELECTRICITY AND MAGNETISM")
