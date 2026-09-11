@@ -113,7 +113,7 @@ h_x_hist = np.zeros((num_steps, N_x + 1, N_y, N_z), dtype=float)
 h_y_hist = np.zeros((num_steps, N_x, N_y + 1, N_z), dtype=float)
 h_z_hist = np.zeros((num_steps, N_x, N_y, N_z + 1), dtype=float)
 
-for i in range(num_steps):
+for n in range(num_steps):
     for i in range(h_x.shape[0]):
         for j in range(h_x.shape[1]):
             for k in range(h_x.shape[2]):
@@ -127,17 +127,17 @@ for i in range(num_steps):
             for k in range(h_z.shape[2]):
                 h_z[i, j, k] = old_h_z[i, j, k] - (delta_t/MU_0) * ((e_y[i + 1, j, k] - e_y[i, j, k])/delta_x - (e_x[i, j + 1, k] - e_x[i, j, k])/delta_y)
     for i in range(e_x.shape[0]):
-        for j in range(e_x.shape[1]):
-            for k in range(e_x.shape[2]):
+        for j in range(1, N_y):
+            for k in range(1, N_z):
                 e_x[i, j, k] = old_e_x[i, j, k] + (delta_t/EPSILON_0) * ((h_z[i, j, k] - h_z[i, j - 1, k])/delta_y - (h_y[i, j, k] - h_y[i, j, k - 1])/delta_z)
-    for i in range(e_y.shape[0]):
+    for i in range(1, N_x):
         for j in range(e_y.shape[1]):
-            for k in range(e_y.shape[2]):
-                e_y[i, j, k] = old_e_y[i, j, k] + (delta_t/EPSILON_0) * ((h_x[i, j, k] - h_x[i, j, k - 1])/delta_z - (h_x[i, j, k] - h_x[i - 1, j, k])/delta_x)
-    for i in range(e_z.shape[0]):
-        for j in range(e_z.shape[1]):
+            for k in range(1, N_z):
+                e_y[i, j, k] = old_e_y[i, j, k] + (delta_t/EPSILON_0) * ((h_x[i, j, k] - h_x[i, j, k - 1])/delta_z - (h_z[i, j, k] - h_z[i - 1, j, k])/delta_x)
+    for i in range(1, N_x):
+        for j in range(1, N_y):
             for k in range(e_z.shape[2]):
-                e_z[i, j, k] = old_e_z[i, j, k] + (delta_t/EPSILON_0) * ((h_y[i, j, k] - h_z[i - 1, j, k])/delta_x - (h_x[i, j, k] - h_x[i, j - 1, k])/delta_y)
+                e_z[i, j, k] = old_e_z[i, j, k] + (delta_t/EPSILON_0) * ((h_y[i, j, k] - h_y[i - 1, j, k])/delta_x - (h_x[i, j, k] - h_x[i, j - 1, k])/delta_y)
     
     old_h_x = h_x.copy()
     old_h_y = h_y.copy()
@@ -146,17 +146,17 @@ for i in range(num_steps):
     old_e_y = e_y.copy()
     old_e_z = e_z.copy()
 
-    e_x_hist[i] = e_x
-    e_y_hist[i] = e_y
-    e_z_hist[i] = e_z
-    h_x_hist[i] = h_x
-    h_y_hist[i] = h_y
-    h_z_hist[i] = h_z
+    e_x_hist[n] = e_x
+    e_y_hist[n] = e_y
+    e_z_hist[n] = e_z
+    h_x_hist[n] = h_x
+    h_y_hist[n] = h_y
+    h_z_hist[n] = h_z
 
 
-print(e_x_hist)
-print(e_y_hist)
-print(e_z_hist)
-print(h_x_hist)
-print(h_y_hist)
-print(h_y_hist)
+print(e_x_hist[:, 1, 1, 1])
+print(e_y_hist[:, 1, 1, 1])
+print(e_z_hist[:, 1, 1, 1])
+print(h_x_hist[:, 1, 1, 1])
+print(h_y_hist[:, 1, 1, 1])
+print(h_z_hist[:, 1, 1, 1])
