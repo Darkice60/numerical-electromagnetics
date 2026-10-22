@@ -111,12 +111,12 @@ for n in range(num_steps):
     # basically we update the h fields and e field using numerical approximations of in matter where J_f = 0, D = Epsilon_0 E, and H = MU_0 B
     # namely we use faraday's law of induction and The ampere-maxwell law, which yields 6 equations that with rearragment yield favourable rsults
     # the array indcies are once again based of of the Yee lattice
-    # (∂B/∂t)_x = -(∇×E)_x -> (H_x)^(n+1/2)[i, j, k] = (H_x)^(n-1/2)[i, j, k] - (Δt/μ₀) * ([(E_z)^n[i, j + 1, k] - (E_z)^n[i, j, k]]/Δy - [(E_y)^n[i, j, k + 1] - (E_y)^n[i, j, k]]/Δz)
-    # (∂B/∂t)_y = -(∇×E)_y -> (H_y)^(n+1/2)[i, j, k] = (H_y)^(n-1/2)[i, j, k] - (Δt/μ₀) * ([(E_x)^n[i, j, k + 1] - (E_x)^n[i, j, k]]/Δz - [(E_z)^n[i + 1, j, k] - (E_z)^n[i, j, k]]/Δx)
-    # (∂B/∂t)_z = -(∇×E)_z -> (H_z)^(n+1/2)[i, j, k] = (H_z)^(n-1/2)[i, j, k] - (Δt/μ₀) * ([(E_y)^n[i + 1, j, k] - (E_y)^n[i, j, k]]/Δx - [(E_x)^n[i, j + 1, k] - (E_x)^n[i, j, k]]/Δy)
-    # (∂E/∂t)_x = [(∇×H)_x]/ε₀ -> (E_x)^(n+1)[i, j, k] = (E_x)^(n)[i, j, k] + (Δt/ε₀) * ([(H_z)^(n+1/2)[i, j, k] - (H_z)^(n+1/2)[i, j - 1, z]]/Δy - [(H_y)^(n+1/2)[i, j, k] - (H_y)^(n+1/2)[i, j, k - 1]]/Δz)
-    # (∂E/∂t)_y = [(∇×H)_y]/ε₀ -> (E_y)^(n+1)[i, j, k] = (E_y)^(n)[i, j, k] + (Δt/ε₀) * ([(H_x)^(n+1/2)[i, j, k] - (H_x)^(n+1/2)[i, j, z - 1]]/Δz - [(H_z)^(n+1/2)[i, j, k] - (H_z)^(n+1/2)[i - 1, j, k]]/Δx)
-    # (∂E/∂t)_z = [(∇×H)_z]/ε₀ -> (E_z)^(n+1)[i, j, k] = (E_z)^(n)[i, j, k] + (Δt/ε₀) * ([(H_y)^(n+1/2)[i, j, k] - (H_y)^(n+1/2)[i - 1, j, z]]/Δx - [(H_x)^(n+1/2)[i, j, k] - (H_x)^(n+1/2)[i, j - 1, k]]/Δy)
+    # (dB/dt)_x = -(∇×E)_x -> (H_x)^(n+1/2)[i, j, k] = (H_x)^(n-1/2)[i, j, k] - (Δt/μ₀) * ([(E_z)^n[i, j + 1, k] - (E_z)^n[i, j, k]]/Δy - [(E_y)^n[i, j, k + 1] - (E_y)^n[i, j, k]]/Δz)
+    # (dB/dt)_y = -(∇×E)_y -> (H_y)^(n+1/2)[i, j, k] = (H_y)^(n-1/2)[i, j, k] - (Δt/μ₀) * ([(E_x)^n[i, j, k + 1] - (E_x)^n[i, j, k]]/Δz - [(E_z)^n[i + 1, j, k] - (E_z)^n[i, j, k]]/Δx)
+    # (dB/dt)_z = -(∇×E)_z -> (H_z)^(n+1/2)[i, j, k] = (H_z)^(n-1/2)[i, j, k] - (Δt/μ₀) * ([(E_y)^n[i + 1, j, k] - (E_y)^n[i, j, k]]/Δx - [(E_x)^n[i, j + 1, k] - (E_x)^n[i, j, k]]/Δy)
+    # (dE/dt)_x = [(∇×H)_x]/ε₀ -> (E_x)^(n+1)[i, j, k] = (E_x)^(n)[i, j, k] + (Δt/ε₀) * ([(H_z)^(n+1/2)[i, j, k] - (H_z)^(n+1/2)[i, j - 1, z]]/Δy - [(H_y)^(n+1/2)[i, j, k] - (H_y)^(n+1/2)[i, j, k - 1]]/Δz)
+    # (dE/dt)_y = [(∇×H)_y]/ε₀ -> (E_y)^(n+1)[i, j, k] = (E_y)^(n)[i, j, k] + (Δt/ε₀) * ([(H_x)^(n+1/2)[i, j, k] - (H_x)^(n+1/2)[i, j, z - 1]]/Δz - [(H_z)^(n+1/2)[i, j, k] - (H_z)^(n+1/2)[i - 1, j, k]]/Δx)
+    # (dE/dt)_z = [(∇×H)_z]/ε₀ -> (E_z)^(n+1)[i, j, k] = (E_z)^(n)[i, j, k] + (Δt/ε₀) * ([(H_y)^(n+1/2)[i, j, k] - (H_y)^(n+1/2)[i - 1, j, z]]/Δx - [(H_x)^(n+1/2)[i, j, k] - (H_x)^(n+1/2)[i, j - 1, k]]/Δy)
     # the rnage of all 6 loops are based on the size of the nparray and the operation required (i.e the E calculations are from 1 to N b/c we subtract one ansd dont want a -1 index)
 
     for i in range(h_x.shape[0]):
